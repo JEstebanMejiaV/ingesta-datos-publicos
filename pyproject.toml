@@ -16,3 +16,31 @@ addopts = "-q"
 [tool.ruff]
 line-length = 100
 target-version = "py310"
+
+
+[tool.ruff.lint]
+# Conjuntos de reglas a considerar
+
+select = ["E", "W"]
+ignore = ["E501",  "E701", "E702", "E401"]
+
+
+# Reglas “flexibilizadas” 
+ # "E501"  long lines 
+ # "E701"  Multiple statements on one line (colon)
+ # "E702"  Multiple statements on one line (semicolon)
+ # "E401"  Multiple imports on one line
+
+# Qué carpetas/archivos ignorar por completo
+exclude = [
+  ".git",
+  ".venv",
+  "out",
+  "banrep_output",
+  "pwt_out",
+  "__pycache__",
+]
+
+
+
+
