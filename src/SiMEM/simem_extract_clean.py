@@ -14,14 +14,14 @@ import requests
 
 
 # ==================================================
-# PARAMS 
+# PARAMS
 # ==================================================
 
 PARAMS = {
-    # --- Qué dataset descargar 
+    # --- Qué dataset descargar
     
-    "dataset_id": "a704ee",           
-    
+    "dataset_id": "a704ee",
+
     # --- Rango de fechas que entiende la API (usualmente YYYY-MM-DD):
     "start_date": "2025-07-01",
     "end_date":   "2025-10-30",
@@ -312,8 +312,8 @@ def get_df(params: Dict[str, Any] = PARAMS) -> pd.DataFrame:
 
 def main() -> pd.DataFrame:
     res = fetch_dataset_and_clean(PARAMS)
-    
-    dfinMemory = res.df.copy() 
+
+    dfinMemory = res.df.copy()
 
     print("[INFO] Metadatos:")
     print(json.dumps({

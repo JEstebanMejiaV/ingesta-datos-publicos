@@ -1,4 +1,3 @@
-# banrep_consolidate_v3.py
 # -*- coding: utf-8 -*-
 """
 Consolida CSVs (uno por flow) en:
@@ -12,7 +11,9 @@ import argparse, logging, os, re, sys, time, glob
 from typing import List, Optional, Tuple
 import pandas as pd
 
-# ========= PARAMS (ajusta aquí) =========
+# ==================================================
+# PARAMS
+# ==================================================
 OUT_DIR_DEFAULT     = "banrep_output"                  # raíz con /data y /catalog
 FLOWS_DEFAULT       = "ALL"                            # "ALL" o lista: ["DF_TRM_DAILY_HIST", ...]
 SAVE_PARQUET_LONG   = "banrep_output/catalog/all_long.parquet"  # None para no guardar
@@ -20,9 +21,11 @@ SAVE_PARQUET_WIDE   = "banrep_output/catalog/all_wide.parquet"  # None para no g
 SAVE_CSV_LONG       = None                             # Ej: "banrep_output/catalog/all_long.csv"
 SAVE_CSV_WIDE       = None                             # Ej: "banrep_output/catalog/all_wide.csv"
 LOG_LEVEL_DEFAULT   = "INFO"
-# ========================================
 
-# ----- Logger sin duplicados -----
+# ==================================================
+## Logger sin duplicados
+# ==================================================
+
 logger = logging.getLogger("banrep_cons")
 if not logger.handlers:
     h = logging.StreamHandler(sys.stdout)
@@ -51,7 +54,10 @@ def log_call(fn):
             raise
     return wrapper
 
-# ----- Utils -----
+# ==================================================
+## Utilidades
+# ==================================================
+
 def _snake(s: str) -> str:
     return re.sub(r"[^0-9a-zA-Z]+", "_", str(s)).strip("_").lower()
 
@@ -136,7 +142,10 @@ def _safe_to_parquet(df: pd.DataFrame, path: Optional[str]) -> Optional[str]:
         logger.info("Guardado CSV (fallback) → %s", alt)
         return alt
 
-# ----- Consolidación -----
+# ==================================================
+## Consolidación
+# ==================================================
+
 @log_call
 def consolidate(
     out_dir: str,
@@ -207,7 +216,10 @@ def consolidate(
 
     return df_long, df_wide
 
-# ----- CLI -----
+# ==================================================
+## CLI
+# ==================================================
+
 def build_cli() -> argparse.ArgumentParser:
     p = argparse.ArgumentParser(description="Consolidar CSVs de BanRep en DataFrame largo/ancho, con dtypes seguros.")
     p.add_argument("--out-dir", default=OUT_DIR_DEFAULT, help="Directorio raíz con /data y /catalog")

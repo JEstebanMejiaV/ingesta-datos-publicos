@@ -1,10 +1,10 @@
+# -*- coding: utf-8 -*-
 
 """
 
 Datos Dane
 
-
-En contrucción 
+En contrucción
 
 Falta solucionar el captcha y/0 la consecución del Token
 
@@ -17,7 +17,7 @@ import logging
 import re
 import time
 from dataclasses import dataclass
-from typing import Any, Dict, Iterable, List, Optional, Tuple
+from typing import Any, Dict, List, Optional, Tuple
 
 import pandas as pd
 import requests
@@ -27,7 +27,9 @@ UA = "DANE-NADA-Extractor/1.0 (+github.com/your-org)"
 LOG = logging.getLogger("nada")
 
 
-# ----------------------------- utilidades ------------------------------------
+# ==================================================
+# Utilidades 
+# ==================================================
 def _get(d: Dict, *keys, default=None):
     """Acceso tolerante a llaves anidadas: _get(d, 'a','b','c', default=None)."""
     cur = d
@@ -95,7 +97,10 @@ def _retry_get(session: requests.Session, url: str, **kwargs) -> requests.Respon
     return r  # no llega
 
 
-# ----------------------------- cliente NADA ----------------------------------
+# ==================================================
+# Cliente NADA 
+# ==================================================
+
 @dataclass
 class NadaClient:
     base: str = BASE
@@ -152,7 +157,9 @@ class NadaClient:
         return r.json()
 
 
-# ------------------------ parseo: estudio / variables ------------------------
+# ==================================================
+# Parseo 
+# ==================================================
 def parse_study(md: Dict[str, Any], study_id: int) -> Dict[str, Any]:
     """Fila nivel estudio, robusta a variantes NADA."""
     sd = md.get("study_desc", {}) or {}
@@ -257,7 +264,10 @@ def parse_variables(md: Dict[str, Any], study_id: int) -> List[Dict[str, Any]]:
     return out
 
 
-# --------------------------- pipeline principal ------------------------------
+# ==================================================
+# Pipeline principal 
+# ==================================================
+
 def run_extraction(
     q: Optional[str] = None,
     sid_list: Optional[List[int]] = None,
@@ -350,7 +360,9 @@ def run_extraction(
     return df_vars, df_studies
 
 
-# ---------------------------------- CLI --------------------------------------
+# ==================================================
+# CLI 
+# ==================================================
 def _main():
     ap = argparse.ArgumentParser(description="Extractor NADA DANE (variables + estudios)")
     sel = ap.add_mutually_exclusive_group(required=True)
